@@ -106,5 +106,8 @@ class CSZScoreNorm(Processor):
         with pd.option_context("mode.chained_assignment", None):
             for group in groups:
                 cols = get_group_columns(df, group)
-                df[cols] = df[cols].groupby("datetime", group_keys=False).apply(zscore)
+                grouped = df[cols].groupby(level="datetime", sort=False)
+                means = grouped.transform("mean")
+                stds = grouped.transform("std")
+                df[cols] = (df[cols] - means).div(stds)
         return df

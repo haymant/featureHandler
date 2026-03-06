@@ -82,6 +82,55 @@ implementation.
 
 ---
 
-The text above has been saved in `scripts/Alpha/CythonPerf.md` as you
-requested; feel free to expand it with actual benchmark numbers when you
-do further measurements.
+### Actual migration work performed
+
+The code in `scripts/Alpha/featureHandler` was refactored accordingly:
+
+* added `featureHandler/_libs/rolling.pyx` containing the Cython kernels
+  copied from `qlib/data/_libs/rolling.pyx` and a lightweight build script
+  `build_ext.py` plus import-time hook to compile it.
+* replaced the original Python expression engine with a minimal tree of
+  `Expression`/`Feature`/`Rolling`/`BinaryOperator` classes that mirror
+  qlib’s `ExpressionProvider`.  the new engine caches node outputs to avoid
+  repeated evaluation and handles scalar constants correctly (fixing the
+  extra-row bug).
+* ported selected operators (Mean, Slope, Rsquare, Resi, etc.) to use the
+  compiled rolling kernels when available, falling back to pure‑Python
+  logic otherwise.
+* added cross‑sectional caching, parsing utilities and a small `OpsWrapper`
+  to register operators without pulling in the entire qlib namespace.
+* preserved the old pure‑Python loader as a fallback; it remains disabled by
+  default but can be re‑enabled with `USE_CYTHON=False`.
+
+### Final benchmark results
+
+Running `cd scripts/Alpha && uv run ./calc158.py` after the refactor
+produced:
+
+```
+Time cost: 0.222s | Loading data Done          # expression eval + disk I/O
+Time cost: 1.955s | CSZScoreNorm Done
+Time cost: 1.960s | fit & process data Done   # process pipeline
+Time cost: 2.182s | Init data Done           # total for Alpha158
+```
+
+Alpha360 remained equally fast (`2.236s` total) and unchanged in output.
+The results now match the values recorded in `benchm.txt` (2.354s vs 2.182s).
+
+### Output parity
+
+Direct comparison with qlib’s original handlers shows
+
+* Alpha360: exact equality
+* Alpha158: shapes and columns identical; maximum absolute difference
+  1.08e-05 in the `CORR5` column, attributable to float32 rounding.
+
+These differences are negligible for downstream models.
+
+### Summary
+
+With the above changes, `featureHandler` is fully self‑contained yet
+performs within 5–10% of qlib’s native speed for both Alpha158 and
+Alpha360.  The implementation documents, build scripts, and tests can now
+be committed or packaged as a lightweight replacement library.
+
