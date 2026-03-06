@@ -1,0 +1,48 @@
+$ uv run scripts/Alpha/calc158.py 
+[3885063:MainThread](2026-03-07 01:31:33,197) INFO - qlib.Initialization - [config.py:452] - default_conf: client.
+[3885063:MainThread](2026-03-07 01:31:33,911) INFO - qlib.Initialization - [__init__.py:82] - qlib successfully initialized based on client settings.
+[3885063:MainThread](2026-03-07 01:31:33,912) INFO - qlib.Initialization - [__init__.py:84] - data_path={'__DEFAULT_FREQ': PosixPath('/home/zhaoli/.qlib/qlib_data/us_data')}
+qlib data root: /home/zhaoli/.qlib/qlib_data/us_data
+[3885063:MainThread](2026-03-07 01:31:34,191) INFO - qlib.timer - [log.py:127] - Time cost: 0.278s | Loading data Done
+[3885063:MainThread](2026-03-07 01:31:34,196) INFO - qlib.timer - [log.py:127] - Time cost: 0.002s | DropnaLabel Done
+[3885063:MainThread](2026-03-07 01:31:36,265) INFO - qlib.timer - [log.py:127] - Time cost: 2.069s | CSZScoreNorm Done
+[3885063:MainThread](2026-03-07 01:31:36,266) INFO - qlib.timer - [log.py:127] - Time cost: 2.075s | fit & process data Done
+[3885063:MainThread](2026-03-07 01:31:36,266) INFO - qlib.timer - [log.py:127] - Time cost: 2.354s | Init data Done
+loaded dataframe shape (3239, 159)
+dataframe head:
+                         feature                                                    ...                                                       label
+                           KMID      KLEN     KMID2       KUP      KUP2      KLOW  ...    VSUMD5   VSUMD10   VSUMD20   VSUMD30   VSUMD60    LABEL0
+datetime   instrument                                                              ...                                                            
+2008-01-02 AAPL       -0.022231  0.038691 -0.574578  0.004968  0.128406  0.011492  ...  0.538955  0.021869  0.024938 -0.038536  0.008421 -0.076335
+2008-01-03 AAPL       -0.002456  0.024052 -0.102128  0.010133  0.421277  0.011463  ...  0.122969 -0.150369  0.014313 -0.039515  0.000378 -0.013385
+2008-01-04 AAPL       -0.059546  0.073701 -0.807937  0.008096  0.109852  0.006059  ...  0.400933  0.228548  0.107020 -0.010802  0.021191 -0.035972
+2008-01-07 AAPL       -0.019917  0.073766 -0.270008  0.012966  0.175767  0.040883  ...  0.633269  0.391918  0.199599  0.101471  0.083761  0.047591
+2008-01-08 AAPL       -0.049351  0.064727 -0.762436  0.012879  0.198971  0.002498  ...  0.385246  0.145535  0.073172  0.128775 -0.007354 -0.007692
+
+[5 rows x 159 columns]
+columns (showing first 20): [('feature', 'KMID'), ('feature', 'KLEN'), ('feature', 'KMID2'), ('feature', 'KUP'), ('feature', 'KUP2'), ('feature', 'KLOW'), ('feature', 'KLOW2'), ('feature', 'KSFT'), ('feature', 'KSFT2'), ('feature', 'OPEN0'), ('feature', 'HIGH0'), ('feature', 'LOW0'), ('feature', 'VWAP0'), ('feature', 'ROC5'), ('feature', 'ROC10'), ('feature', 'ROC20'), ('feature', 'ROC30'), ('feature', 'ROC60'), ('feature', 'MA5'), ('feature', 'MA10')]
+[3885063:MainThread](2026-03-07 01:31:36,624) INFO - qlib.timer - [log.py:127] - Time cost: 0.280s | Loading data Done
+[3885063:MainThread](2026-03-07 01:33:54,279) INFO - qlib.timer - [log.py:127] - Time cost: 137.652s | ProcessInf Done
+/home/data/git/microsoft/qlib/qlib/data/dataset/processor.py:241: RuntimeWarning: Mean of empty slice
+  self.mean_train = np.nanmean(df[cols].values, axis=0)
+/home/data/git/microsoft/qlib/.venv/lib/python3.12/site-packages/numpy/lib/nanfunctions.py:1879: RuntimeWarning: Degrees of freedom <= 0 for slice.
+  var = nanvar(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
+[3885063:MainThread](2026-03-07 01:33:54,300) INFO - qlib.timer - [log.py:127] - Time cost: 0.021s | ZScoreNorm Done
+[3885063:MainThread](2026-03-07 01:33:54,305) INFO - qlib.timer - [log.py:127] - Time cost: 0.004s | Fillna Done
+[3885063:MainThread](2026-03-07 01:33:54,308) INFO - qlib.timer - [log.py:127] - Time cost: 0.002s | DropnaLabel Done
+[3885063:MainThread](2026-03-07 01:33:56,384) INFO - qlib.timer - [log.py:127] - Time cost: 2.076s | CSZScoreNorm Done
+[3885063:MainThread](2026-03-07 01:33:56,385) INFO - qlib.timer - [log.py:127] - Time cost: 139.761s | fit & process data Done
+[3885063:MainThread](2026-03-07 01:33:56,385) INFO - qlib.timer - [log.py:127] - Time cost: 140.041s | Init data Done
+alpha360 dataframe shape (3239, 361)
+alpha360 dataframe head:
+                         feature                                                    ...                                                     label
+                        CLOSE59   CLOSE58   CLOSE57   CLOSE56   CLOSE55   CLOSE54  ...   VOLUME4   VOLUME3   VOLUME2   VOLUME1 VOLUME0    LABEL0
+datetime   instrument                                                              ...                                                          
+2008-01-02 AAPL        0.861784  0.861528  0.856035  0.832632  0.858396  0.857011  ...  0.652100  0.737160  0.648314  0.499763     1.0 -0.076335
+2008-01-03 AAPL        0.861130  0.855640  0.832248  0.858000  0.856615  0.869953  ...  0.944733  0.830869  0.640488  1.281584     1.0 -0.013385
+2008-01-04 AAPL        0.926353  0.901027  0.928908  0.927409  0.941849  0.959456  ...  0.480582  0.370464  0.741280  0.578409     1.0 -0.035972
+2008-01-07 AAPL        0.913252  0.941511  0.939991  0.954627  0.972472  0.976695  ...  0.260272  0.520791  0.406365  0.702556     1.0  0.047591
+2008-01-08 AAPL        0.976642  0.975066  0.990248  1.008759  1.013139  0.995153  ...  0.708208  0.552604  0.955386  1.359871     1.0 -0.007692
+
+[5 rows x 361 columns]
+alpha360 columns (first 20): [('feature', 'CLOSE59'), ('feature', 'CLOSE58'), ('feature', 'CLOSE57'), ('feature', 'CLOSE56'), ('feature', 'CLOSE55'), ('feature', 'CLOSE54'), ('feature', 'CLOSE53'), ('feature', 'CLOSE52'), ('feature', 'CLOSE51'), ('feature', 'CLOSE50'), ('feature', 'CLOSE49'), ('feature', 'CLOSE48'), ('feature', 'CLOSE47'), ('feature', 'CLOSE46'), ('feature', 'CLOSE45'), ('feature', 'CLOSE44'), ('feature', 'CLOSE43'), ('feature', 'CLOSE42'), ('feature', 'CLOSE41'), ('feature', 'CLOSE40')]
